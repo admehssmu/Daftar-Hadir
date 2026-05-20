@@ -435,7 +435,7 @@
   }
 
   // ── Apps Script URL ──
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzExgkBCYjRDGp1aOBSGcmeC42Bkml5mdr17eVR-Efaaw883j5s_agxNyb0t8Gp7eq85A/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4PSqN8ZPKmbhyOu4QRPdl33JSLQLvBCBp4MMt9wZB1EKoaFZlFMM5znxeSQ-buORz/exec';
 
   // ── Submit ──
   async function handleSubmit() {
@@ -452,7 +452,8 @@
     btn.disabled    = true;
     btn.textContent = 'Mengirim...';
 
-    const ttdBase64 = canvas.toDataURL('image/png');
+    // Kompres TTD ke JPEG kualitas rendah agar payload kecil
+    const ttdBase64 = canvas.toDataURL('image/jpeg', 0.3);
 
     // Kirim via JSONP untuk menghindari CORS
     const callbackName = 'cb_' + Date.now();
