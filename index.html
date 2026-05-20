@@ -455,9 +455,11 @@
     const ttdBase64 = canvas.toDataURL('image/png');
 
     try {
-      const response = await fetch(SCRIPT_URL, {
-        method: 'POST',
-        body: JSON.stringify({ nik, nama, departemen, ttd: ttdBase64 })
+      // Kirim via GET + payload untuk menghindari CORS
+      const payload  = encodeURIComponent(JSON.stringify({ nik, nama, departemen, ttd: ttdBase64 }));
+      const response = await fetch(SCRIPT_URL + '?payload=' + payload, {
+        method: 'GET',
+        redirect: 'follow'
       });
       const res = await response.json();
 
