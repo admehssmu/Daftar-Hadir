@@ -435,7 +435,7 @@
   }
 
   // ── Apps Script URL ──
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyK4XgHLy39S4CLwqfvfZ4sYnYgungaUvoUMOt9adcfCbDW_HSuC6cYC_oaeVqqNyKZ_Q/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzExgkBCYjRDGp1aOBSGcmeC42Bkml5mdr17eVR-Efaaw883j5s_agxNyb0t8Gp7eq85A/exec';
 
   // ── Submit ──
   async function handleSubmit() {
@@ -454,14 +454,14 @@
 
     const ttdBase64 = canvas.toDataURL('image/png');
 
-    try {
-      // Kirim via GET + payload untuk menghindari CORS
-      const payload  = encodeURIComponent(JSON.stringify({ nik, nama, departemen, ttd: ttdBase64 }));
-      const response = await fetch(SCRIPT_URL + '?payload=' + payload, {
-        method: 'GET',
-        redirect: 'follow'
-      });
-      const res = await response.json();
+    // Kirim via JSONP untuk menghindari CORS
+    const callbackName = 'cb_' + Date.now();
+    const payload      = encodeURIComponent(JSON.stringify({ nik, nama, departemen, ttd: ttdBase64 }));
+
+    window[callbackName] = function(res) {
+      // Cleanup
+      delete window[callbackName];
+      document.getElementById('jsonpScript')?.remove();
 
       btn.disabled    = false;
       btn.textContent = 'Kirim Daftar Hadir';
@@ -474,11 +474,30 @@
       } else {
         showToast(res.message, 'error');
       }
-    } catch (err) {
+    };
+
+    // Timeout jika tidak ada response dalam 15 detik
+    const timeout = setTimeout(function() {
+      if (window[callbackName]) {
+        delete window[callbackName];
+        document.getElementById('jsonpScript')?.remove();
+        btn.disabled    = false;
+        btn.textContent = 'Kirim Daftar Hadir';
+        showToast('Gagal mengirim, silakan coba lagi.', 'error');
+      }
+    }, 15000);
+
+    const script  = document.createElement('script');
+    script.id     = 'jsonpScript';
+    script.src    = SCRIPT_URL + '?callback=' + callbackName + '&payload=' + payload;
+    script.onerror = function() {
+      clearTimeout(timeout);
+      delete window[callbackName];
       btn.disabled    = false;
       btn.textContent = 'Kirim Daftar Hadir';
-      showToast('Gagal mengirim, periksa koneksi internet Anda.', 'error');
-    }
+      showToast('Gagal mengirim, silakan coba lagi.', 'error');
+    };
+    document.head.appendChild(script);
   }
 
   // ── Reset ──
