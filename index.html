@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daftar Hadir</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --red:     #C0392B;
+      --red-dark:#96281B;
+      --gray-50: #F9FAFB;
+      --gray-100:#F3F4F6;
+      --gray-200:#E5E7EB;
+      --gray-400:#9CA3AF;
+      --gray-600:#4B5563;
+      --gray-800:#1F2937;
+      --white:   #FFFFFF;
+      --radius:  12px;
+      --shadow:  0 4px 24px rgba(0,0,0,0.08);
+    }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--gray-50);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 24px 16px 48px;
+    }
+
+    /* ── HEADER ── */
+    .header {
+      width: 100%;
+      max-width: 520px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    .header-top {
+      background: var(--red);
+      padding: 18px 24px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-circle {
+      width: 44px; height: 44px;
+      background: var(--white);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: var(--red); font-size: 13px;
+      letter-spacing: -0.5px; flex-shrink: 0;
+    }
+
+    .header-title { color: var(--white); }
+    .header-title h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.3px; }
+    .header-title p  { font-size: 11px; opacity: 0.85; margin-top: 2px; }
+
+    .header-body {
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 3px solid var(--red);
+    }
+
+    .doc-label { font-size: 20px; font-weight: 700; color: var(--gray-800); }
+
+    .doc-meta {
+      font-size: 11px;
+      color: var(--gray-600);
+      text-align: right;
+      line-height: 1.6;
+    }
+    .doc-meta span { color: var(--gray-800); font-weight: 600; }
+
+    /* ── CARD ── */
+    .card {
+      width: 100%;
+      max-width: 520px;
+      background: var(--white);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 28px 24px;
+    }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 18px;
+    }
+
+    /* ── FORM FIELDS ── */
+    .field { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--gray-600);
+      margin-bottom: 6px;
+      letter-spacing: 0.2px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 11px 14px;
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      color: var(--gray-800);
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+
+    input:focus, select:focus {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+    }
+
+    input::placeholder { color: var(--gray-400); }
+
+    /* ── SIGNATURE ── */
+    .sig-label {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+
+    .sig-clear {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--red);
+      cursor: pointer;
+      border: none;
+      background: none;
+      padding: 4px 8px;
+      border-radius: 6px;
+      transition: background 0.15s;
+    }
+    .sig-clear:hover { background: rgba(192,57,43,0.08); }
+
+    .sig-wrapper {
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      overflow: hidden;
+      position: relative;
+      background: var(--white);
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .sig-wrapper.active {
+      border-color: var(--red);
+      box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+    }
+
+    #sigCanvas {
+      display: block;
+      width: 100%;
+      height: 160px;
+      cursor: crosshair;
+      touch-action: none;
+    }
+
+    .sig-hint {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none;
+      gap: 6px;
+    }
+    .sig-hint span { font-size: 12px; color: var(--gray-400); font-weight: 500; }
+    .sig-hint::before { content: ''; width: 32px; height: 1px; background: var(--gray-200); }
+    .sig-hint::after  { content: ''; width: 32px; height: 1px; background: var(--gray-200); }
+
+    /* ── SUBMIT BUTTON ── */
+    .btn-submit {
+      width: 100%;
+      padding: 14px;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s, transform 0.1s;
+      letter-spacing: 0.3px;
+    }
+    .btn-submit:hover    { background: var(--red-dark); }
+    .btn-submit:active   { transform: scale(0.99); }
+    .btn-submit:disabled { background: var(--gray-400); cursor: not-allowed; transform: none; }
+
+    /* ── TOAST ── */
+    #toast {
+      position: fixed;
+      bottom: 24px; left: 50%;
+      transform: translateX(-50%) translateY(80px);
+      background: var(--gray-800);
+      color: var(--white);
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-size: 13px;
+      font-weight: 500;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s;
+      opacity: 0;
+      z-index: 999;
+      max-width: 90vw;
+      white-space: normal;
+      text-align: center;
+    }
+    #toast.show    { transform: translateX(-50%) translateY(0); opacity: 1; }
+    #toast.success { background: #15803D; }
+    #toast.error   { background: var(--red); }
+
+    /* ── SUCCESS STATE ── */
+    .success-screen { display: none; text-align: center; padding: 16px 0; }
+    .success-icon {
+      width: 64px; height: 64px;
+      background: #D1FAE5;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px;
+      font-size: 28px;
+    }
+    .success-screen h2 { font-size: 18px; color: var(--gray-800); margin-bottom: 6px; }
+    .success-screen p  { font-size: 13px; color: var(--gray-600); margin-bottom: 20px; line-height: 1.5; }
+
+    .btn-another {
+      display: inline-block;
+      padding: 10px 24px;
+      background: var(--red);
+      color: var(--white);
+      border: none;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .btn-another:hover { background: var(--red-dark); }
+
+    .divider { height: 1px; background: var(--gray-100); margin: 20px 0; }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-top">
+      <div class="logo-circle">WINGS</div>
+      <div class="header-title">
+        <h1>PT. SAYAP MAS UTAMA</h1>
+        <p>SMU/IMS-00/06-008 · Rev. 00</p>
+      </div>
+    </div>
+    <div class="header-body">
+      <div class="doc-label">Daftar Hadir</div>
+      <div class="doc-meta">
+        Tanggal: <span id="tanggalHari"></span><br>
+        Halaman: <span>1/1</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="card">
+
+    <!-- FORM STATE -->
+    <div id="formState">
+      <div class="section-title">Data Peserta</div>
+
+      <div class="field">
+        <label for="nik">NIK</label>
+        <input type="text" id="nik" placeholder="Masukkan NIK Anda" inputmode="numeric" />
+      </div>
+
+      <div class="field">
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" id="nama" placeholder="Masukkan nama lengkap" />
+      </div>
+
+      <div class="field">
+        <label for="departemen">Departemen</label>
+        <select id="departemen">
+          <option value="" disabled selected>-- Pilih Departemen --</option>
+          <option>BOF</option>
+          <option>CLD</option>
+          <option>CRM</option>
+          <option>DST</option>
+          <option>EPU</option>
+          <option>HRD-HRM</option>
+          <option>HRD-GAF</option>
+          <option>IMS</option>
+          <option>MEX</option>
+          <option>PMA</option>
+          <option>PWD</option>
+          <option>QCD</option>
+          <option>RND</option>
+          <option>SCM</option>
+          <option>SMA</option>
+          <option>SWG</option>
+          <option>SOP</option>
+          <option>Lainnya</option>
+        </select>
+      </div>
+
+      <div class="divider"></div>
+      <div class="section-title">Tanda Tangan</div>
+
+      <div class="field">
+        <div class="sig-label">
+          <label style="margin:0">Tanda tangan di kotak berikut</label>
+          <button class="sig-clear" onclick="clearSignature()">Ulangi</button>
+        </div>
+        <div class="sig-wrapper" id="sigWrapper">
+          <canvas id="sigCanvas"></canvas>
+          <div class="sig-hint" id="sigHint"><span>Tanda tangan di sini</span></div>
+        </div>
+      </div>
+
+      <button class="btn-submit" id="btnSubmit" onclick="handleSubmit()">
+        Kirim Daftar Hadir
+      </button>
+    </div>
+
+    <!-- SUCCESS STATE -->
+    <div class="success-screen" id="successState">
+      <div class="success-icon">✓</div>
+      <h2 id="successName">Terima kasih!</h2>
+      <p id="successMsg">Data Anda berhasil dicatat.</p>
+      <button class="btn-another" onclick="resetForm()">Peserta Berikutnya</button>
+    </div>
+
+  </div>
+
+  <!-- TOAST -->
+  <div id="toast"></div>
+
+<script>
+  // ── Tanggal ──
+  const opts = { day: '2-digit', month: 'long', year: 'numeric' };
+  document.getElementById('tanggalHari').textContent =
+    new Date().toLocaleDateString('id-ID', opts);
+
+  // ── Canvas Setup ──
+  const canvas  = document.getElementById('sigCanvas');
+  const ctx     = canvas.getContext('2d');
+  const wrapper = document.getElementById('sigWrapper');
+  const hint    = document.getElementById('sigHint');
+
+  let drawing = false;
+  let hasSig  = false;
+
+  function resizeCanvas() {
+    const ratio = window.devicePixelRatio || 1;
+    const rect  = canvas.getBoundingClientRect();
+    canvas.width  = rect.width  * ratio;
+    canvas.height = rect.height * ratio;
+    ctx.scale(ratio, ratio);
+    ctx.strokeStyle = '#1F2937';
+    ctx.lineWidth   = 2.2;
+    ctx.lineCap     = 'round';
+    ctx.lineJoin    = 'round';
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  function getPos(e) {
+    const rect = canvas.getBoundingClientRect();
+    const src  = e.touches ? e.touches[0] : e;
+    return { x: src.clientX - rect.left, y: src.clientY - rect.top };
+  }
+
+  function startDraw(e) {
+    e.preventDefault();
+    drawing = true;
+    const p = getPos(e);
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+    wrapper.classList.add('active');
+  }
+
+  function draw(e) {
+    if (!drawing) return;
+    e.preventDefault();
+    const p = getPos(e);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    if (!hasSig) { hasSig = true; hint.style.display = 'none'; }
+  }
+
+  function endDraw(e) { e.preventDefault(); drawing = false; }
+
+  canvas.addEventListener('mousedown',  startDraw);
+  canvas.addEventListener('mousemove',  draw);
+  canvas.addEventListener('mouseup',    endDraw);
+  canvas.addEventListener('mouseleave', endDraw);
+  canvas.addEventListener('touchstart', startDraw, { passive: false });
+  canvas.addEventListener('touchmove',  draw,      { passive: false });
+  canvas.addEventListener('touchend',   endDraw,   { passive: false });
+
+  function clearSignature() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    hasSig = false;
+    hint.style.display = '';
+    wrapper.classList.remove('active');
+  }
+
+  // ── Toast ──
+  function showToast(msg, type = '') {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.className   = 'show ' + type;
+    setTimeout(() => { t.className = type; }, 3500);
+  }
+
+  // ── Apps Script URL ──
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwoSdA-kASf3Ox2D52mZ00nHEj7HoNNaG1BZqIFQA5rVdK0PeK7OjEm0zU2z0rllmVJ_A/exec';
+
+  // ── Submit ──
+  async function handleSubmit() {
+    const nik        = document.getElementById('nik').value.trim();
+    const nama       = document.getElementById('nama').value.trim();
+    const departemen = document.getElementById('departemen').value;
+
+    if (!nik)        { showToast('NIK wajib diisi.', 'error'); return; }
+    if (!nama)       { showToast('Nama wajib diisi.', 'error'); return; }
+    if (!departemen) { showToast('Departemen wajib dipilih.', 'error'); return; }
+    if (!hasSig)     { showToast('Tanda tangan belum diisi.', 'error'); return; }
+
+    const btn = document.getElementById('btnSubmit');
+    btn.disabled    = true;
+    btn.textContent = 'Mengirim...';
+
+    const ttdBase64 = canvas.toDataURL('image/png');
+
+    try {
+      const response = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: JSON.stringify({ nik, nama, departemen, ttd: ttdBase64 })
+      });
+      const res = await response.json();
+
+      btn.disabled    = false;
+      btn.textContent = 'Kirim Daftar Hadir';
+
+      if (res.success) {
+        document.getElementById('formState').style.display    = 'none';
+        document.getElementById('successState').style.display = 'block';
+        document.getElementById('successName').textContent    = 'Terima kasih, ' + nama + '!';
+        document.getElementById('successMsg').textContent     = res.message;
+      } else {
+        showToast(res.message, 'error');
+      }
+    } catch (err) {
+      btn.disabled    = false;
+      btn.textContent = 'Kirim Daftar Hadir';
+      showToast('Gagal mengirim, periksa koneksi internet Anda.', 'error');
+    }
+  }
+
+  // ── Reset ──
+  function resetForm() {
+    document.getElementById('nik').value              = '';
+    document.getElementById('nama').value             = '';
+    document.getElementById('departemen').selectedIndex = 0;
+    clearSignature();
+    document.getElementById('formState').style.display    = '';
+    document.getElementById('successState').style.display = 'none';
+  }
+</script>
+
+</body>
+</html>
