@@ -85,21 +85,19 @@
       color: var(--gray-600); margin-bottom: 6px; letter-spacing: 0.2px;
     }
 
-    input, select, textarea {
+    input, select {
       width: 100%; padding: 11px 14px;
       border: 1.5px solid var(--gray-200); border-radius: 8px;
       font-family: inherit; font-size: 14px; color: var(--gray-800);
       background: var(--white);
       transition: border-color 0.2s, box-shadow 0.2s; outline: none;
     }
-    textarea { resize: none; height: 70px; }
-    input:focus, select:focus, textarea:focus {
+    input:focus, select:focus {
       border-color: var(--red);
       box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
     }
-    input::placeholder, textarea::placeholder { color: var(--gray-400); }
+    input::placeholder { color: var(--gray-400); }
 
-    /* Info kegiatan badge (di form peserta) */
     .info-box {
       background: var(--gray-50);
       border: 1.5px solid var(--gray-200);
@@ -112,7 +110,6 @@
     .info-box-label { color: var(--gray-400); font-weight: 600; min-width: 60px; font-size: 11px; padding-top: 1px; }
     .info-box-value { color: var(--gray-800); font-weight: 500; }
 
-    /* Signature */
     .sig-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .sig-clear {
       font-size: 11px; font-weight: 600; color: var(--red);
@@ -180,7 +177,6 @@
 
     .divider { height: 1px; background: var(--gray-100); margin: 20px 0; }
 
-    /* Loading screen */
     #loadingScreen {
       text-align: center; padding: 40px 0; color: var(--gray-400);
       font-size: 13px; font-weight: 500;
@@ -195,19 +191,11 @@
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
-    /* Admin badge */
     .admin-badge {
-      display: inline-block;
-      background: var(--red);
-      color: var(--white);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      padding: 3px 8px;
-      border-radius: 20px;
-      text-transform: uppercase;
-      margin-left: 8px;
-      vertical-align: middle;
+      display: inline-block; background: var(--red); color: var(--white);
+      font-size: 10px; font-weight: 700; letter-spacing: 1px;
+      padding: 3px 8px; border-radius: 20px; text-transform: uppercase;
+      margin-left: 8px; vertical-align: middle;
     }
   </style>
 </head>
@@ -231,6 +219,7 @@
   </div>
 
   <div class="card">
+
     <!-- LOADING -->
     <div id="loadingScreen">
       <div class="spinner"></div>
@@ -240,22 +229,18 @@
     <!-- ADMIN: ISI INFO KEGIATAN -->
     <div id="adminState" style="display:none">
       <div class="section-title">Info Kegiatan <span class="admin-badge">Admin</span></div>
-
       <div class="field">
         <label for="judulKegiatan">Judul Kegiatan</label>
         <input type="text" id="judulKegiatan" placeholder="Contoh: Safety Talk Bulan Juni" />
       </div>
-
       <div class="field">
         <label for="tglJam">Tgl / Jam Pelaksanaan</label>
         <input type="text" id="tglJam" placeholder="Contoh: 11 Juni 2026, 09.00 WIB" />
       </div>
-
       <div class="field">
         <label for="tempat">Tempat</label>
         <input type="text" id="tempat" placeholder="Contoh: Ruang Meeting Lt. 2" />
       </div>
-
       <button class="btn-submit" id="btnSaveInfo" onclick="saveInfo()">
         Simpan & Aktifkan Form Peserta
       </button>
@@ -263,9 +248,9 @@
 
     <!-- ADMIN: SUKSES SIMPAN INFO -->
     <div id="adminSuccessState" style="display:none; text-align:center; padding:16px 0">
-      <div class="success-icon">✓</div>
-      <h2>Info Kegiatan Tersimpan!</h2>
-      <p style="font-size:13px; color:var(--gray-600); margin: 8px 0 20px; line-height:1.6">
+      <div class="success-icon" style="background:#D1FAE5; width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:28px;">✓</div>
+      <h2 style="font-size:18px; color:var(--gray-800); margin-bottom:8px;">Info Kegiatan Tersimpan!</h2>
+      <p style="font-size:13px; color:var(--gray-600); margin-bottom:16px; line-height:1.6">
         Form peserta sudah aktif.<br>Bagikan link berikut ke peserta:
       </p>
       <div style="background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--gray-800); word-break:break-all; margin-bottom:16px" id="pesertaLink"></div>
@@ -274,22 +259,16 @@
 
     <!-- PESERTA: FORM -->
     <div id="formState" style="display:none">
-
-      <!-- Info kegiatan (read-only) -->
       <div class="info-box" id="infoBox"></div>
-
       <div class="section-title">Data Peserta</div>
-
       <div class="field">
         <label for="nik">NIK</label>
         <input type="text" id="nik" placeholder="Masukkan NIK Anda" inputmode="numeric" />
       </div>
-
       <div class="field">
         <label for="nama">Nama Lengkap</label>
         <input type="text" id="nama" placeholder="Masukkan nama lengkap" />
       </div>
-
       <div class="field">
         <label for="departemen">Departemen</label>
         <select id="departemen">
@@ -302,10 +281,8 @@
           <option>SWG</option><option>SOP</option><option>Lainnya</option>
         </select>
       </div>
-
       <div class="divider"></div>
       <div class="section-title">Tanda Tangan</div>
-
       <div class="field">
         <div class="sig-label">
           <label style="margin:0">Tanda tangan di kotak berikut</label>
@@ -316,7 +293,6 @@
           <div class="sig-hint" id="sigHint"><span>Tanda tangan di sini</span></div>
         </div>
       </div>
-
       <button class="btn-submit" id="btnSubmit" onclick="handleSubmit()">
         Kirim Daftar Hadir
       </button>
@@ -338,20 +314,19 @@
         Admin belum mengisi info kegiatan.<br>Silakan hubungi admin.
       </p>
     </div>
+
   </div>
 
   <div id="toast"></div>
 
 <script>
   // ── Tanggal ──
-  const opts = { day: '2-digit', month: 'long', year: 'numeric' };
   document.getElementById('tanggalHari').textContent =
-    new Date().toLocaleDateString('id-ID', opts);
+    new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
 
-  // ── Apps Script URL ──
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1lhrMsbWerCKfh6rNRQxOVsqnb4XIzoYeeaHhJYZagOF9y1Q-4b6VJ302mVAU6JwsFQ/exec';
+  // ── GANTI URL INI dengan URL deployment Apps Script Anda ──
+  const SCRIPT_URL = 'GANTI_DENGAN_URL_DEPLOYMENT_ANDA';
 
-  // ── Cek mode: admin atau peserta ──
   const isAdmin = window.location.search.includes('admin');
 
   // ── JSONP helper ──
@@ -388,16 +363,13 @@
   // ── Init ──
   function init() {
     if (isAdmin) {
-      // Tampilkan halaman admin langsung
       document.getElementById('adminBadge').style.display = '';
       document.getElementById('loadingScreen').style.display = 'none';
       document.getElementById('adminState').style.display = '';
     } else {
-      // Peserta: cek apakah info kegiatan sudah diisi
       jsonpCall({ action: 'getInfo' }, function(res) {
         document.getElementById('loadingScreen').style.display = 'none';
         if (res.success && res.judul) {
-          // Tampilkan info kegiatan di form peserta
           document.getElementById('infoBox').innerHTML =
             '<div class="info-box-row"><span class="info-box-label">Kegiatan</span><span class="info-box-value">' + res.judul + '</span></div>' +
             '<div class="info-box-row"><span class="info-box-label">Waktu</span><span class="info-box-value">' + res.tgljam + '</span></div>' +
@@ -430,7 +402,7 @@
       if (res.success) {
         document.getElementById('adminState').style.display = 'none';
         document.getElementById('adminSuccessState').style.display = '';
-        const pesertaUrl = window.location.href.replace('?admin', '').replace(/\?.*$/, '');
+        const pesertaUrl = window.location.href.replace(/[?&]admin.*$/, '');
         document.getElementById('pesertaLink').textContent = pesertaUrl;
       } else {
         showToast(res.message, 'error');
@@ -440,12 +412,10 @@
 
   function copyPesertaLink() {
     const url = document.getElementById('pesertaLink').textContent;
-    navigator.clipboard.writeText(url).then(() => {
-      showToast('Link berhasil disalin!', 'success');
-    });
+    navigator.clipboard.writeText(url).then(() => showToast('Link berhasil disalin!', 'success'));
   }
 
-  // ── Canvas Setup ──
+  // ── Canvas ──
   const canvas  = document.getElementById('sigCanvas');
   const ctx     = canvas.getContext('2d');
   const wrapper = document.getElementById('sigWrapper');
@@ -472,30 +442,18 @@
     const src  = e.touches ? e.touches[0] : e;
     return { x: src.clientX - rect.left, y: src.clientY - rect.top };
   }
-  function startDraw(e) {
-    e.preventDefault(); drawing = true;
-    const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y);
-    wrapper.classList.add('active');
-  }
-  function draw(e) {
-    if (!drawing) return; e.preventDefault();
-    const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke();
-    if (!hasSig) { hasSig = true; hint.style.display = 'none'; }
-  }
-  function endDraw(e) { e.preventDefault(); drawing = false; }
 
-  canvas.addEventListener('mousedown',  startDraw);
-  canvas.addEventListener('mousemove',  draw);
-  canvas.addEventListener('mouseup',    endDraw);
-  canvas.addEventListener('mouseleave', endDraw);
-  canvas.addEventListener('touchstart', startDraw, { passive: false });
-  canvas.addEventListener('touchmove',  draw,      { passive: false });
-  canvas.addEventListener('touchend',   endDraw,   { passive: false });
+  canvas.addEventListener('mousedown',  e => { drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); wrapper.classList.add('active'); });
+  canvas.addEventListener('mousemove',  e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); if (!hasSig) { hasSig = true; hint.style.display = 'none'; } });
+  canvas.addEventListener('mouseup',    () => drawing = false);
+  canvas.addEventListener('mouseleave', () => drawing = false);
+  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); wrapper.classList.add('active'); }, { passive: false });
+  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); if (!hasSig) { hasSig = true; hint.style.display = 'none'; } }, { passive: false });
+  canvas.addEventListener('touchend',   e => { e.preventDefault(); drawing = false; }, { passive: false });
 
   function clearSignature() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    hasSig = false; hint.style.display = '';
-    wrapper.classList.remove('active');
+    hasSig = false; hint.style.display = ''; wrapper.classList.remove('active');
   }
 
   // ── Toast ──
@@ -505,7 +463,7 @@
     setTimeout(() => { t.className = type; }, 3500);
   }
 
-  // ── Peserta: Submit ──
+  // ── Submit ──
   function handleSubmit() {
     const nik        = document.getElementById('nik').value.trim();
     const nama       = document.getElementById('nama').value.trim();
@@ -519,7 +477,7 @@
     const btn = document.getElementById('btnSubmit');
     btn.disabled = true; btn.textContent = 'Mengirim...';
 
-    const ttdBase64 = canvas.toDataURL('image/jpeg', 0.3);
+    const ttdBase64 = canvas.toDataURL('image/jpeg', 0.5);
 
     jsonpCall({ nik, nama, departemen, ttd: ttdBase64 }, function(res) {
       btn.disabled = false; btn.textContent = 'Kirim Daftar Hadir';
