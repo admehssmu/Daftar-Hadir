@@ -32,60 +32,40 @@
       padding: 24px 16px 48px;
     }
 
-    /* ── HEADER ── */
     .header {
-      width: 100%;
-      max-width: 520px;
+      width: 100%; max-width: 520px;
       background: var(--white);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
       margin-bottom: 20px;
     }
-
     .header-top {
       background: var(--red);
       padding: 18px 24px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
+      display: flex; align-items: center; gap: 14px;
     }
-
     .logo-circle {
       width: 44px; height: 44px;
-      background: var(--white);
-      border-radius: 50%;
+      background: var(--white); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-weight: 700; color: var(--red); font-size: 13px;
       letter-spacing: -0.5px; flex-shrink: 0;
     }
-
     .header-title { color: var(--white); }
     .header-title h1 { font-size: 15px; font-weight: 700; letter-spacing: 0.3px; }
     .header-title p  { font-size: 11px; opacity: 0.85; margin-top: 2px; }
-
     .header-body {
       padding: 14px 24px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: flex; justify-content: space-between; align-items: center;
       border-top: 3px solid var(--red);
     }
-
     .doc-label { font-size: 20px; font-weight: 700; color: var(--gray-800); }
-
-    .doc-meta {
-      font-size: 11px;
-      color: var(--gray-600);
-      text-align: right;
-      line-height: 1.6;
-    }
+    .doc-meta  { font-size: 11px; color: var(--gray-600); text-align: right; line-height: 1.6; }
     .doc-meta span { color: var(--gray-800); font-weight: 600; }
 
-    /* ── CARD ── */
     .card {
-      width: 100%;
-      max-width: 520px;
+      width: 100%; max-width: 520px;
       background: var(--white);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
@@ -93,178 +73,146 @@
     }
 
     .section-title {
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      color: var(--red);
-      margin-bottom: 18px;
+      font-size: 11px; font-weight: 700;
+      letter-spacing: 1px; text-transform: uppercase;
+      color: var(--red); margin-bottom: 18px;
     }
 
-    /* ── FORM FIELDS ── */
     .field { margin-bottom: 18px; }
 
     label {
-      display: block;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--gray-600);
-      margin-bottom: 6px;
-      letter-spacing: 0.2px;
+      display: block; font-size: 12px; font-weight: 600;
+      color: var(--gray-600); margin-bottom: 6px; letter-spacing: 0.2px;
     }
 
-    input, select {
-      width: 100%;
-      padding: 11px 14px;
-      border: 1.5px solid var(--gray-200);
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 14px;
-      color: var(--gray-800);
+    input, select, textarea {
+      width: 100%; padding: 11px 14px;
+      border: 1.5px solid var(--gray-200); border-radius: 8px;
+      font-family: inherit; font-size: 14px; color: var(--gray-800);
       background: var(--white);
-      transition: border-color 0.2s, box-shadow 0.2s;
-      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s; outline: none;
     }
-
-    input:focus, select:focus {
+    textarea { resize: none; height: 70px; }
+    input:focus, select:focus, textarea:focus {
       border-color: var(--red);
       box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
     }
+    input::placeholder, textarea::placeholder { color: var(--gray-400); }
 
-    input::placeholder { color: var(--gray-400); }
-
-    /* ── SIGNATURE ── */
-    .sig-label {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 8px;
+    /* Info kegiatan badge (di form peserta) */
+    .info-box {
+      background: var(--gray-50);
+      border: 1.5px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 14px 16px;
+      margin-bottom: 20px;
     }
+    .info-box-row { display: flex; gap: 8px; margin-bottom: 6px; font-size: 13px; }
+    .info-box-row:last-child { margin-bottom: 0; }
+    .info-box-label { color: var(--gray-400); font-weight: 600; min-width: 60px; font-size: 11px; padding-top: 1px; }
+    .info-box-value { color: var(--gray-800); font-weight: 500; }
 
+    /* Signature */
+    .sig-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .sig-clear {
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--red);
-      cursor: pointer;
-      border: none;
-      background: none;
-      padding: 4px 8px;
-      border-radius: 6px;
-      transition: background 0.15s;
+      font-size: 11px; font-weight: 600; color: var(--red);
+      cursor: pointer; border: none; background: none;
+      padding: 4px 8px; border-radius: 6px; transition: background 0.15s;
     }
     .sig-clear:hover { background: rgba(192,57,43,0.08); }
-
     .sig-wrapper {
-      border: 1.5px solid var(--gray-200);
-      border-radius: 8px;
-      overflow: hidden;
-      position: relative;
-      background: var(--white);
+      border: 1.5px solid var(--gray-200); border-radius: 8px;
+      overflow: hidden; position: relative; background: var(--white);
       transition: border-color 0.2s, box-shadow 0.2s;
     }
-    .sig-wrapper.active {
-      border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
-    }
-
-    #sigCanvas {
-      display: block;
-      width: 100%;
-      height: 160px;
-      cursor: crosshair;
-      touch-action: none;
-    }
-
+    .sig-wrapper.active { border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,0.1); }
+    #sigCanvas { display: block; width: 100%; height: 160px; cursor: crosshair; touch-action: none; }
     .sig-hint {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      pointer-events: none;
-      gap: 6px;
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      pointer-events: none; gap: 6px;
     }
     .sig-hint span { font-size: 12px; color: var(--gray-400); font-weight: 500; }
-    .sig-hint::before { content: ''; width: 32px; height: 1px; background: var(--gray-200); }
-    .sig-hint::after  { content: ''; width: 32px; height: 1px; background: var(--gray-200); }
+    .sig-hint::before, .sig-hint::after { content: ''; width: 32px; height: 1px; background: var(--gray-200); }
 
-    /* ── SUBMIT BUTTON ── */
     .btn-submit {
-      width: 100%;
-      padding: 14px;
-      background: var(--red);
-      color: var(--white);
-      border: none;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 14px;
-      font-weight: 700;
-      cursor: pointer;
-      margin-top: 8px;
-      transition: background 0.2s, transform 0.1s;
-      letter-spacing: 0.3px;
+      width: 100%; padding: 14px;
+      background: var(--red); color: var(--white);
+      border: none; border-radius: 8px;
+      font-family: inherit; font-size: 14px; font-weight: 700;
+      cursor: pointer; margin-top: 8px;
+      transition: background 0.2s, transform 0.1s; letter-spacing: 0.3px;
     }
     .btn-submit:hover    { background: var(--red-dark); }
     .btn-submit:active   { transform: scale(0.99); }
     .btn-submit:disabled { background: var(--gray-400); cursor: not-allowed; transform: none; }
 
-    /* ── TOAST ── */
     #toast {
-      position: fixed;
-      bottom: 24px; left: 50%;
+      position: fixed; bottom: 24px; left: 50%;
       transform: translateX(-50%) translateY(80px);
-      background: var(--gray-800);
-      color: var(--white);
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-size: 13px;
-      font-weight: 500;
+      background: var(--gray-800); color: var(--white);
+      padding: 12px 20px; border-radius: 10px;
+      font-size: 13px; font-weight: 500;
       box-shadow: 0 8px 24px rgba(0,0,0,0.2);
       transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s;
-      opacity: 0;
-      z-index: 999;
-      max-width: 90vw;
-      white-space: normal;
-      text-align: center;
+      opacity: 0; z-index: 999; max-width: 90vw; text-align: center;
     }
     #toast.show    { transform: translateX(-50%) translateY(0); opacity: 1; }
     #toast.success { background: #15803D; }
     #toast.error   { background: var(--red); }
 
-    /* ── SUCCESS STATE ── */
     .success-screen { display: none; text-align: center; padding: 16px 0; }
     .success-icon {
-      width: 64px; height: 64px;
-      background: #D1FAE5;
-      border-radius: 50%;
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 16px;
-      font-size: 28px;
+      width: 64px; height: 64px; background: #D1FAE5;
+      border-radius: 50%; display: flex; align-items: center;
+      justify-content: center; margin: 0 auto 16px; font-size: 28px;
     }
     .success-screen h2 { font-size: 18px; color: var(--gray-800); margin-bottom: 6px; }
     .success-screen p  { font-size: 13px; color: var(--gray-600); margin-bottom: 20px; line-height: 1.5; }
-
     .btn-another {
-      display: inline-block;
-      padding: 10px 24px;
-      background: var(--red);
-      color: var(--white);
-      border: none;
-      border-radius: 8px;
-      font-family: inherit;
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: background 0.2s;
+      display: inline-block; padding: 10px 24px;
+      background: var(--red); color: var(--white);
+      border: none; border-radius: 8px;
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: background 0.2s;
     }
     .btn-another:hover { background: var(--red-dark); }
 
     .divider { height: 1px; background: var(--gray-100); margin: 20px 0; }
+
+    /* Loading screen */
+    #loadingScreen {
+      text-align: center; padding: 40px 0; color: var(--gray-400);
+      font-size: 13px; font-weight: 500;
+    }
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--gray-200);
+      border-top-color: var(--red);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin: 0 auto 12px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Admin badge */
+    .admin-badge {
+      display: inline-block;
+      background: var(--red);
+      color: var(--white);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 1px;
+      padding: 3px 8px;
+      border-radius: 20px;
+      text-transform: uppercase;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <div class="header">
     <div class="header-top">
       <div class="logo-circle">WINGS</div>
@@ -274,7 +222,7 @@
       </div>
     </div>
     <div class="header-body">
-      <div class="doc-label">Daftar Hadir</div>
+      <div class="doc-label">Daftar Hadir <span id="adminBadge" class="admin-badge" style="display:none">Admin</span></div>
       <div class="doc-meta">
         Tanggal: <span id="tanggalHari"></span><br>
         Halaman: <span>1/1</span>
@@ -282,11 +230,54 @@
     </div>
   </div>
 
-  <!-- FORM CARD -->
   <div class="card">
+    <!-- LOADING -->
+    <div id="loadingScreen">
+      <div class="spinner"></div>
+      Memuat form...
+    </div>
 
-    <!-- FORM STATE -->
-    <div id="formState">
+    <!-- ADMIN: ISI INFO KEGIATAN -->
+    <div id="adminState" style="display:none">
+      <div class="section-title">Info Kegiatan <span class="admin-badge">Admin</span></div>
+
+      <div class="field">
+        <label for="judulKegiatan">Judul Kegiatan</label>
+        <input type="text" id="judulKegiatan" placeholder="Contoh: Safety Talk Bulan Juni" />
+      </div>
+
+      <div class="field">
+        <label for="tglJam">Tgl / Jam Pelaksanaan</label>
+        <input type="text" id="tglJam" placeholder="Contoh: 11 Juni 2026, 09.00 WIB" />
+      </div>
+
+      <div class="field">
+        <label for="tempat">Tempat</label>
+        <input type="text" id="tempat" placeholder="Contoh: Ruang Meeting Lt. 2" />
+      </div>
+
+      <button class="btn-submit" id="btnSaveInfo" onclick="saveInfo()">
+        Simpan & Aktifkan Form Peserta
+      </button>
+    </div>
+
+    <!-- ADMIN: SUKSES SIMPAN INFO -->
+    <div id="adminSuccessState" style="display:none; text-align:center; padding:16px 0">
+      <div class="success-icon">✓</div>
+      <h2>Info Kegiatan Tersimpan!</h2>
+      <p style="font-size:13px; color:var(--gray-600); margin: 8px 0 20px; line-height:1.6">
+        Form peserta sudah aktif.<br>Bagikan link berikut ke peserta:
+      </p>
+      <div style="background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--gray-800); word-break:break-all; margin-bottom:16px" id="pesertaLink"></div>
+      <button class="btn-another" onclick="copyPesertaLink()">Salin Link Peserta</button>
+    </div>
+
+    <!-- PESERTA: FORM -->
+    <div id="formState" style="display:none">
+
+      <!-- Info kegiatan (read-only) -->
+      <div class="info-box" id="infoBox"></div>
+
       <div class="section-title">Data Peserta</div>
 
       <div class="field">
@@ -303,24 +294,12 @@
         <label for="departemen">Departemen</label>
         <select id="departemen">
           <option value="" disabled selected>-- Pilih Departemen --</option>
-          <option>BOF</option>
-          <option>CLD</option>
-          <option>CRM</option>
-          <option>DST</option>
-          <option>EPU</option>
-          <option>HRD-HRM</option>
-          <option>HRD-GAF</option>
-          <option>IMS</option>
-          <option>MEX</option>
-          <option>PMA</option>
-          <option>PWD</option>
-          <option>QCD</option>
-          <option>RND</option>
-          <option>SCM</option>
-          <option>SMA</option>
-          <option>SWG</option>
-          <option>SOP</option>
-          <option>Lainnya</option>
+          <option>BOF</option><option>CLD</option><option>CRM</option>
+          <option>DST</option><option>EPU</option><option>HRD-HRM</option>
+          <option>HRD-GAF</option><option>IMS</option><option>MEX</option>
+          <option>PMA</option><option>PWD</option><option>QCD</option>
+          <option>RND</option><option>SCM</option><option>SMA</option>
+          <option>SWG</option><option>SOP</option><option>Lainnya</option>
         </select>
       </div>
 
@@ -343,7 +322,7 @@
       </button>
     </div>
 
-    <!-- SUCCESS STATE -->
+    <!-- PESERTA: SUKSES -->
     <div class="success-screen" id="successState">
       <div class="success-icon">✓</div>
       <h2 id="successName">Terima kasih!</h2>
@@ -351,9 +330,16 @@
       <button class="btn-another" onclick="resetForm()">Peserta Berikutnya</button>
     </div>
 
+    <!-- FORM BELUM AKTIF -->
+    <div id="notActiveState" style="display:none; text-align:center; padding:24px 0">
+      <div style="font-size:40px; margin-bottom:12px">🔒</div>
+      <h2 style="font-size:16px; color:var(--gray-800); margin-bottom:8px">Form Belum Aktif</h2>
+      <p style="font-size:13px; color:var(--gray-600); line-height:1.6">
+        Admin belum mengisi info kegiatan.<br>Silakan hubungi admin.
+      </p>
+    </div>
   </div>
 
-  <!-- TOAST -->
   <div id="toast"></div>
 
 <script>
@@ -362,14 +348,110 @@
   document.getElementById('tanggalHari').textContent =
     new Date().toLocaleDateString('id-ID', opts);
 
+  // ── Apps Script URL ──
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyK4XgHLy39S4CLwqfvfZ4sYnYgungaUvoUMOt9adcfCbDW_HSuC6cYC_oaeVqqNyKZ_Q/exec';
+
+  // ── Cek mode: admin atau peserta ──
+  const isAdmin = window.location.search.includes('admin');
+
+  // ── JSONP helper ──
+  function jsonpCall(payload, callback) {
+    const cbName = 'cb_' + Date.now();
+    const data   = encodeURIComponent(JSON.stringify(payload));
+
+    const timeout = setTimeout(function() {
+      if (window[cbName]) {
+        delete window[cbName];
+        document.getElementById('jsonpScript')?.remove();
+        callback({ success: false, message: 'Timeout, silakan coba lagi.' });
+      }
+    }, 15000);
+
+    window[cbName] = function(res) {
+      clearTimeout(timeout);
+      delete window[cbName];
+      document.getElementById('jsonpScript')?.remove();
+      callback(res);
+    };
+
+    const script   = document.createElement('script');
+    script.id      = 'jsonpScript';
+    script.src     = SCRIPT_URL + '?callback=' + cbName + '&payload=' + data;
+    script.onerror = function() {
+      clearTimeout(timeout);
+      delete window[cbName];
+      callback({ success: false, message: 'Gagal mengirim, silakan coba lagi.' });
+    };
+    document.head.appendChild(script);
+  }
+
+  // ── Init ──
+  function init() {
+    if (isAdmin) {
+      // Tampilkan halaman admin langsung
+      document.getElementById('adminBadge').style.display = '';
+      document.getElementById('loadingScreen').style.display = 'none';
+      document.getElementById('adminState').style.display = '';
+    } else {
+      // Peserta: cek apakah info kegiatan sudah diisi
+      jsonpCall({ action: 'getInfo' }, function(res) {
+        document.getElementById('loadingScreen').style.display = 'none';
+        if (res.success && res.judul) {
+          // Tampilkan info kegiatan di form peserta
+          document.getElementById('infoBox').innerHTML =
+            '<div class="info-box-row"><span class="info-box-label">Kegiatan</span><span class="info-box-value">' + res.judul + '</span></div>' +
+            '<div class="info-box-row"><span class="info-box-label">Waktu</span><span class="info-box-value">' + res.tgljam + '</span></div>' +
+            '<div class="info-box-row"><span class="info-box-label">Tempat</span><span class="info-box-value">' + res.tempat + '</span></div>';
+          document.getElementById('formState').style.display = '';
+        } else {
+          document.getElementById('notActiveState').style.display = '';
+        }
+      });
+    }
+  }
+
+  init();
+
+  // ── Admin: Simpan Info ──
+  function saveInfo() {
+    const judul  = document.getElementById('judulKegiatan').value.trim();
+    const tgljam = document.getElementById('tglJam').value.trim();
+    const tempat = document.getElementById('tempat').value.trim();
+
+    if (!judul)  { showToast('Judul Kegiatan wajib diisi.', 'error'); return; }
+    if (!tgljam) { showToast('Tgl/Jam wajib diisi.', 'error'); return; }
+    if (!tempat) { showToast('Tempat wajib diisi.', 'error'); return; }
+
+    const btn = document.getElementById('btnSaveInfo');
+    btn.disabled = true; btn.textContent = 'Menyimpan...';
+
+    jsonpCall({ action: 'saveInfo', judul, tgljam, tempat }, function(res) {
+      btn.disabled = false; btn.textContent = 'Simpan & Aktifkan Form Peserta';
+      if (res.success) {
+        document.getElementById('adminState').style.display = 'none';
+        document.getElementById('adminSuccessState').style.display = '';
+        const pesertaUrl = window.location.href.replace('?admin', '').replace(/\?.*$/, '');
+        document.getElementById('pesertaLink').textContent = pesertaUrl;
+      } else {
+        showToast(res.message, 'error');
+      }
+    });
+  }
+
+  function copyPesertaLink() {
+    const url = document.getElementById('pesertaLink').textContent;
+    navigator.clipboard.writeText(url).then(() => {
+      showToast('Link berhasil disalin!', 'success');
+    });
+  }
+
   // ── Canvas Setup ──
   const canvas  = document.getElementById('sigCanvas');
   const ctx     = canvas.getContext('2d');
   const wrapper = document.getElementById('sigWrapper');
   const hint    = document.getElementById('sigHint');
-
-  let drawing = false;
-  let hasSig  = false;
+  let drawing   = false;
+  let hasSig    = false;
 
   function resizeCanvas() {
     const ratio = window.devicePixelRatio || 1;
@@ -390,25 +472,16 @@
     const src  = e.touches ? e.touches[0] : e;
     return { x: src.clientX - rect.left, y: src.clientY - rect.top };
   }
-
   function startDraw(e) {
-    e.preventDefault();
-    drawing = true;
-    const p = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
+    e.preventDefault(); drawing = true;
+    const p = getPos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y);
     wrapper.classList.add('active');
   }
-
   function draw(e) {
-    if (!drawing) return;
-    e.preventDefault();
-    const p = getPos(e);
-    ctx.lineTo(p.x, p.y);
-    ctx.stroke();
+    if (!drawing) return; e.preventDefault();
+    const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke();
     if (!hasSig) { hasSig = true; hint.style.display = 'none'; }
   }
-
   function endDraw(e) { e.preventDefault(); drawing = false; }
 
   canvas.addEventListener('mousedown',  startDraw);
@@ -421,24 +494,19 @@
 
   function clearSignature() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    hasSig = false;
-    hint.style.display = '';
+    hasSig = false; hint.style.display = '';
     wrapper.classList.remove('active');
   }
 
   // ── Toast ──
   function showToast(msg, type = '') {
     const t = document.getElementById('toast');
-    t.textContent = msg;
-    t.className   = 'show ' + type;
+    t.textContent = msg; t.className = 'show ' + type;
     setTimeout(() => { t.className = type; }, 3500);
   }
 
-  // ── Apps Script URL ──
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz4PSqN8ZPKmbhyOu4QRPdl33JSLQLvBCBp4MMt9wZB1EKoaFZlFMM5znxeSQ-buORz/exec';
-
-  // ── Submit ──
-  async function handleSubmit() {
+  // ── Peserta: Submit ──
+  function handleSubmit() {
     const nik        = document.getElementById('nik').value.trim();
     const nama       = document.getElementById('nama').value.trim();
     const departemen = document.getElementById('departemen').value;
@@ -449,24 +517,12 @@
     if (!hasSig)     { showToast('Tanda tangan belum diisi.', 'error'); return; }
 
     const btn = document.getElementById('btnSubmit');
-    btn.disabled    = true;
-    btn.textContent = 'Mengirim...';
+    btn.disabled = true; btn.textContent = 'Mengirim...';
 
-    // Kompres TTD ke JPEG kualitas rendah agar payload kecil
     const ttdBase64 = canvas.toDataURL('image/jpeg', 0.3);
 
-    // Kirim via JSONP untuk menghindari CORS
-    const callbackName = 'cb_' + Date.now();
-    const payload      = encodeURIComponent(JSON.stringify({ nik, nama, departemen, ttd: ttdBase64 }));
-
-    window[callbackName] = function(res) {
-      // Cleanup
-      delete window[callbackName];
-      document.getElementById('jsonpScript')?.remove();
-
-      btn.disabled    = false;
-      btn.textContent = 'Kirim Daftar Hadir';
-
+    jsonpCall({ nik, nama, departemen, ttd: ttdBase64 }, function(res) {
+      btn.disabled = false; btn.textContent = 'Kirim Daftar Hadir';
       if (res.success) {
         document.getElementById('formState').style.display    = 'none';
         document.getElementById('successState').style.display = 'block';
@@ -475,36 +531,13 @@
       } else {
         showToast(res.message, 'error');
       }
-    };
-
-    // Timeout jika tidak ada response dalam 15 detik
-    const timeout = setTimeout(function() {
-      if (window[callbackName]) {
-        delete window[callbackName];
-        document.getElementById('jsonpScript')?.remove();
-        btn.disabled    = false;
-        btn.textContent = 'Kirim Daftar Hadir';
-        showToast('Gagal mengirim, silakan coba lagi.', 'error');
-      }
-    }, 15000);
-
-    const script  = document.createElement('script');
-    script.id     = 'jsonpScript';
-    script.src    = SCRIPT_URL + '?callback=' + callbackName + '&payload=' + payload;
-    script.onerror = function() {
-      clearTimeout(timeout);
-      delete window[callbackName];
-      btn.disabled    = false;
-      btn.textContent = 'Kirim Daftar Hadir';
-      showToast('Gagal mengirim, silakan coba lagi.', 'error');
-    };
-    document.head.appendChild(script);
+    });
   }
 
   // ── Reset ──
   function resetForm() {
-    document.getElementById('nik').value              = '';
-    document.getElementById('nama').value             = '';
+    document.getElementById('nik').value               = '';
+    document.getElementById('nama').value              = '';
     document.getElementById('departemen').selectedIndex = 0;
     clearSignature();
     document.getElementById('formState').style.display    = '';
