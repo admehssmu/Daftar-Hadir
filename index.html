@@ -324,8 +324,8 @@
   document.getElementById('tanggalHari').textContent =
     new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
 
-  // ── GANTI URL INI dengan URL deployment Apps Script Anda ──
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbyharRij402wk1mnQyc3nlIJHJGxhhnXjNjS3K5dxTk_ka3Sr2gyHI3x_p0w7UPJP_j5Q/exec';
+  // ── URL Deployment Apps Script ──
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqdxY4pXD9KKeH4AfWNATCAc9IE3wm9X4b6JtefYnVJYAs_N4FgCwhD6T4jnutGYUhgw/exec';
 
   const isAdmin = window.location.search.includes('admin');
 
@@ -375,6 +375,8 @@
             '<div class="info-box-row"><span class="info-box-label">Waktu</span><span class="info-box-value">' + res.tgljam + '</span></div>' +
             '<div class="info-box-row"><span class="info-box-label">Tempat</span><span class="info-box-value">' + res.tempat + '</span></div>';
           document.getElementById('formState').style.display = '';
+          // Resize canvas setelah form visible agar canvas bisa digambar
+          setTimeout(resizeCanvas, 50);
         } else {
           document.getElementById('notActiveState').style.display = '';
         }
@@ -426,6 +428,8 @@
   function resizeCanvas() {
     const ratio = window.devicePixelRatio || 1;
     const rect  = canvas.getBoundingClientRect();
+    // Hanya resize jika elemen sudah visible (width > 0)
+    if (rect.width === 0) return;
     canvas.width  = rect.width  * ratio;
     canvas.height = rect.height * ratio;
     ctx.scale(ratio, ratio);
@@ -434,7 +438,7 @@
     ctx.lineCap     = 'round';
     ctx.lineJoin    = 'round';
   }
-  resizeCanvas();
+
   window.addEventListener('resize', resizeCanvas);
 
   function getPos(e) {
@@ -500,6 +504,8 @@
     clearSignature();
     document.getElementById('formState').style.display    = '';
     document.getElementById('successState').style.display = 'none';
+    // Resize canvas lagi setelah reset
+    setTimeout(resizeCanvas, 50);
   }
 </script>
 
