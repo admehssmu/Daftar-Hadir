@@ -7,7 +7,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
       --red:     #C0392B;
       --red-dark:#96281B;
@@ -21,33 +20,24 @@
       --radius:  12px;
       --shadow:  0 4px 24px rgba(0,0,0,0.08);
     }
-
     body {
       font-family: 'Plus Jakarta Sans', sans-serif;
       background: var(--gray-50);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      display: flex; flex-direction: column; align-items: center;
       padding: 24px 16px 48px;
     }
-
     .header {
       width: 100%; max-width: 520px;
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow: hidden;
-      margin-bottom: 20px;
+      background: var(--white); border-radius: var(--radius);
+      box-shadow: var(--shadow); overflow: hidden; margin-bottom: 20px;
     }
     .header-top {
-      background: var(--red);
-      padding: 18px 24px;
+      background: var(--red); padding: 18px 24px;
       display: flex; align-items: center; gap: 14px;
     }
     .logo-circle {
-      width: 44px; height: 44px;
-      background: var(--white); border-radius: 50%;
+      width: 44px; height: 44px; background: var(--white); border-radius: 50%;
       display: flex; align-items: center; justify-content: center;
       font-weight: 700; color: var(--red); font-size: 13px;
       letter-spacing: -0.5px; flex-shrink: 0;
@@ -63,28 +53,19 @@
     .doc-label { font-size: 20px; font-weight: 700; color: var(--gray-800); }
     .doc-meta  { font-size: 11px; color: var(--gray-600); text-align: right; line-height: 1.6; }
     .doc-meta span { color: var(--gray-800); font-weight: 600; }
-
     .card {
-      width: 100%; max-width: 520px;
-      background: var(--white);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 28px 24px;
+      width: 100%; max-width: 520px; background: var(--white);
+      border-radius: var(--radius); box-shadow: var(--shadow); padding: 28px 24px;
     }
-
     .section-title {
-      font-size: 11px; font-weight: 700;
-      letter-spacing: 1px; text-transform: uppercase;
-      color: var(--red); margin-bottom: 18px;
+      font-size: 11px; font-weight: 700; letter-spacing: 1px;
+      text-transform: uppercase; color: var(--red); margin-bottom: 18px;
     }
-
     .field { margin-bottom: 18px; }
-
     label {
       display: block; font-size: 12px; font-weight: 600;
       color: var(--gray-600); margin-bottom: 6px; letter-spacing: 0.2px;
     }
-
     input, select {
       width: 100%; padding: 11px 14px;
       border: 1.5px solid var(--gray-200); border-radius: 8px;
@@ -93,23 +74,17 @@
       transition: border-color 0.2s, box-shadow 0.2s; outline: none;
     }
     input:focus, select:focus {
-      border-color: var(--red);
-      box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
+      border-color: var(--red); box-shadow: 0 0 0 3px rgba(192,57,43,0.1);
     }
     input::placeholder { color: var(--gray-400); }
-
     .info-box {
-      background: var(--gray-50);
-      border: 1.5px solid var(--gray-200);
-      border-radius: 8px;
-      padding: 14px 16px;
-      margin-bottom: 20px;
+      background: var(--gray-50); border: 1.5px solid var(--gray-200);
+      border-radius: 8px; padding: 14px 16px; margin-bottom: 20px;
     }
     .info-box-row { display: flex; gap: 8px; margin-bottom: 6px; font-size: 13px; }
     .info-box-row:last-child { margin-bottom: 0; }
     .info-box-label { color: var(--gray-400); font-weight: 600; min-width: 60px; font-size: 11px; padding-top: 1px; }
     .info-box-value { color: var(--gray-800); font-weight: 500; }
-
     .sig-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
     .sig-clear {
       font-size: 11px; font-weight: 600; color: var(--red);
@@ -131,25 +106,20 @@
     }
     .sig-hint span { font-size: 12px; color: var(--gray-400); font-weight: 500; }
     .sig-hint::before, .sig-hint::after { content: ''; width: 32px; height: 1px; background: var(--gray-200); }
-
     .btn-submit {
-      width: 100%; padding: 14px;
-      background: var(--red); color: var(--white);
-      border: none; border-radius: 8px;
-      font-family: inherit; font-size: 14px; font-weight: 700;
-      cursor: pointer; margin-top: 8px;
+      width: 100%; padding: 14px; background: var(--red); color: var(--white);
+      border: none; border-radius: 8px; font-family: inherit; font-size: 14px;
+      font-weight: 700; cursor: pointer; margin-top: 8px;
       transition: background 0.2s, transform 0.1s; letter-spacing: 0.3px;
     }
     .btn-submit:hover    { background: var(--red-dark); }
     .btn-submit:active   { transform: scale(0.99); }
     .btn-submit:disabled { background: var(--gray-400); cursor: not-allowed; transform: none; }
-
     #toast {
       position: fixed; bottom: 24px; left: 50%;
       transform: translateX(-50%) translateY(80px);
       background: var(--gray-800); color: var(--white);
-      padding: 12px 20px; border-radius: 10px;
-      font-size: 13px; font-weight: 500;
+      padding: 12px 20px; border-radius: 10px; font-size: 13px; font-weight: 500;
       box-shadow: 0 8px 24px rgba(0,0,0,0.2);
       transition: transform 0.35s cubic-bezier(0.34,1.56,0.64,1), opacity 0.35s;
       opacity: 0; z-index: 999; max-width: 90vw; text-align: center;
@@ -157,40 +127,31 @@
     #toast.show    { transform: translateX(-50%) translateY(0); opacity: 1; }
     #toast.success { background: #15803D; }
     #toast.error   { background: var(--red); }
-
     .success-screen { display: none; text-align: center; padding: 16px 0; }
     .success-icon {
-      width: 64px; height: 64px; background: #D1FAE5;
-      border-radius: 50%; display: flex; align-items: center;
-      justify-content: center; margin: 0 auto 16px; font-size: 28px;
+      width: 64px; height: 64px; background: #D1FAE5; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      margin: 0 auto 16px; font-size: 28px;
     }
     .success-screen h2 { font-size: 18px; color: var(--gray-800); margin-bottom: 6px; }
     .success-screen p  { font-size: 13px; color: var(--gray-600); margin-bottom: 20px; line-height: 1.5; }
     .btn-another {
-      display: inline-block; padding: 10px 24px;
-      background: var(--red); color: var(--white);
-      border: none; border-radius: 8px;
+      display: inline-block; padding: 10px 24px; background: var(--red);
+      color: var(--white); border: none; border-radius: 8px;
       font-family: inherit; font-size: 13px; font-weight: 600;
       cursor: pointer; transition: background 0.2s;
     }
     .btn-another:hover { background: var(--red-dark); }
-
     .divider { height: 1px; background: var(--gray-100); margin: 20px 0; }
-
     #loadingScreen {
-      text-align: center; padding: 40px 0; color: var(--gray-400);
-      font-size: 13px; font-weight: 500;
+      text-align: center; padding: 40px 0; color: var(--gray-400); font-size: 13px; font-weight: 500;
     }
     .spinner {
-      width: 32px; height: 32px;
-      border: 3px solid var(--gray-200);
-      border-top-color: var(--red);
-      border-radius: 50%;
-      animation: spin 0.8s linear infinite;
-      margin: 0 auto 12px;
+      width: 32px; height: 32px; border: 3px solid var(--gray-200);
+      border-top-color: var(--red); border-radius: 50%;
+      animation: spin 0.8s linear infinite; margin: 0 auto 12px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
-
     .admin-badge {
       display: inline-block; background: var(--red); color: var(--white);
       font-size: 10px; font-weight: 700; letter-spacing: 1px;
@@ -219,12 +180,7 @@
   </div>
 
   <div class="card">
-
-    <!-- LOADING -->
-    <div id="loadingScreen">
-      <div class="spinner"></div>
-      Memuat form...
-    </div>
+    <div id="loadingScreen"><div class="spinner"></div>Memuat form...</div>
 
     <!-- ADMIN: ISI INFO KEGIATAN -->
     <div id="adminState" style="display:none">
@@ -241,18 +197,14 @@
         <label for="tempat">Tempat</label>
         <input type="text" id="tempat" placeholder="Contoh: Ruang Meeting Lt. 2" />
       </div>
-      <button class="btn-submit" id="btnSaveInfo" onclick="saveInfo()">
-        Simpan & Aktifkan Form Peserta
-      </button>
+      <button class="btn-submit" id="btnSaveInfo" onclick="saveInfo()">Simpan & Aktifkan Form Peserta</button>
     </div>
 
-    <!-- ADMIN: SUKSES SIMPAN INFO -->
+    <!-- ADMIN: SUKSES -->
     <div id="adminSuccessState" style="display:none; text-align:center; padding:16px 0">
-      <div class="success-icon" style="background:#D1FAE5; width:64px; height:64px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin:0 auto 16px; font-size:28px;">✓</div>
+      <div class="success-icon">✓</div>
       <h2 style="font-size:18px; color:var(--gray-800); margin-bottom:8px;">Info Kegiatan Tersimpan!</h2>
-      <p style="font-size:13px; color:var(--gray-600); margin-bottom:16px; line-height:1.6">
-        Form peserta sudah aktif.<br>Bagikan link berikut ke peserta:
-      </p>
+      <p style="font-size:13px; color:var(--gray-600); margin-bottom:16px; line-height:1.6">Form peserta sudah aktif.<br>Bagikan link berikut ke peserta:</p>
       <div style="background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--gray-800); word-break:break-all; margin-bottom:16px" id="pesertaLink"></div>
       <button class="btn-another" onclick="copyPesertaLink()">Salin Link Peserta</button>
     </div>
@@ -293,9 +245,7 @@
           <div class="sig-hint" id="sigHint"><span>Tanda tangan di sini</span></div>
         </div>
       </div>
-      <button class="btn-submit" id="btnSubmit" onclick="handleSubmit()">
-        Kirim Daftar Hadir
-      </button>
+      <button class="btn-submit" id="btnSubmit" onclick="handleSubmit()">Kirim Daftar Hadir</button>
     </div>
 
     <!-- PESERTA: SUKSES -->
@@ -310,30 +260,23 @@
     <div id="notActiveState" style="display:none; text-align:center; padding:24px 0">
       <div style="font-size:40px; margin-bottom:12px">🔒</div>
       <h2 style="font-size:16px; color:var(--gray-800); margin-bottom:8px">Form Belum Aktif</h2>
-      <p style="font-size:13px; color:var(--gray-600); line-height:1.6">
-        Admin belum mengisi info kegiatan.<br>Silakan hubungi admin.
-      </p>
+      <p style="font-size:13px; color:var(--gray-600); line-height:1.6">Admin belum mengisi info kegiatan.<br>Silakan hubungi admin.</p>
     </div>
-
   </div>
 
   <div id="toast"></div>
 
 <script>
-  // ── Tanggal ──
   document.getElementById('tanggalHari').textContent =
     new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
 
-  // ── URL Deployment Apps Script ──
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwqdxY4pXD9KKeH4AfWNATCAc9IE3wm9X4b6JtefYnVJYAs_N4FgCwhD6T4jnutGYUhgw/exec';
-
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1SvJQ0LGKTUfBmnwaGCOi1xxpp2HGj6ehM9_LKhhIB4aAoXC-Gc_2kFV4oq9GeLqUMA/exec';
   const isAdmin = window.location.search.includes('admin');
 
-  // ── JSONP helper ──
+  // ── JSONP ──
   function jsonpCall(payload, callback) {
     const cbName = 'cb_' + Date.now();
     const data   = encodeURIComponent(JSON.stringify(payload));
-
     const timeout = setTimeout(function() {
       if (window[cbName]) {
         delete window[cbName];
@@ -341,17 +284,15 @@
         callback({ success: false, message: 'Timeout, silakan coba lagi.' });
       }
     }, 15000);
-
     window[cbName] = function(res) {
       clearTimeout(timeout);
       delete window[cbName];
       document.getElementById('jsonpScript')?.remove();
       callback(res);
     };
-
-    const script   = document.createElement('script');
-    script.id      = 'jsonpScript';
-    script.src     = SCRIPT_URL + '?callback=' + cbName + '&payload=' + data;
+    const script = document.createElement('script');
+    script.id    = 'jsonpScript';
+    script.src   = SCRIPT_URL + '?callback=' + cbName + '&payload=' + data;
     script.onerror = function() {
       clearTimeout(timeout);
       delete window[cbName];
@@ -375,7 +316,6 @@
             '<div class="info-box-row"><span class="info-box-label">Waktu</span><span class="info-box-value">' + res.tgljam + '</span></div>' +
             '<div class="info-box-row"><span class="info-box-label">Tempat</span><span class="info-box-value">' + res.tempat + '</span></div>';
           document.getElementById('formState').style.display = '';
-          // Resize canvas setelah form visible agar canvas bisa digambar
           setTimeout(resizeCanvas, 50);
         } else {
           document.getElementById('notActiveState').style.display = '';
@@ -383,22 +323,18 @@
       });
     }
   }
-
   init();
 
-  // ── Admin: Simpan Info ──
+  // ── Admin ──
   function saveInfo() {
     const judul  = document.getElementById('judulKegiatan').value.trim();
     const tgljam = document.getElementById('tglJam').value.trim();
     const tempat = document.getElementById('tempat').value.trim();
-
     if (!judul)  { showToast('Judul Kegiatan wajib diisi.', 'error'); return; }
     if (!tgljam) { showToast('Tgl/Jam wajib diisi.', 'error'); return; }
     if (!tempat) { showToast('Tempat wajib diisi.', 'error'); return; }
-
     const btn = document.getElementById('btnSaveInfo');
     btn.disabled = true; btn.textContent = 'Menyimpan...';
-
     jsonpCall({ action: 'saveInfo', judul, tgljam, tempat }, function(res) {
       btn.disabled = false; btn.textContent = 'Simpan & Aktifkan Form Peserta';
       if (res.success) {
@@ -413,23 +349,26 @@
   }
 
   function copyPesertaLink() {
-    const url = document.getElementById('pesertaLink').textContent;
-    navigator.clipboard.writeText(url).then(() => showToast('Link berhasil disalin!', 'success'));
+    navigator.clipboard.writeText(document.getElementById('pesertaLink').textContent)
+      .then(() => showToast('Link berhasil disalin!', 'success'));
   }
 
-  // ── Canvas ──
+  // ── Canvas TTD ──
   const canvas  = document.getElementById('sigCanvas');
   const ctx     = canvas.getContext('2d');
   const wrapper = document.getElementById('sigWrapper');
   const hint    = document.getElementById('sigHint');
-  let drawing   = false;
+  let isDrawing = false;
+  let lastX     = 0;
+  let lastY     = 0;
   let hasSig    = false;
 
   function resizeCanvas() {
     const ratio = window.devicePixelRatio || 1;
     const rect  = canvas.getBoundingClientRect();
-    // Hanya resize jika elemen sudah visible (width > 0)
     if (rect.width === 0) return;
+    // Simpan gambar sebelumnya sebelum resize
+    const imgData = hasSig ? ctx.getImageData(0, 0, canvas.width, canvas.height) : null;
     canvas.width  = rect.width  * ratio;
     canvas.height = rect.height * ratio;
     ctx.scale(ratio, ratio);
@@ -437,8 +376,9 @@
     ctx.lineWidth   = 2.2;
     ctx.lineCap     = 'round';
     ctx.lineJoin    = 'round';
+    // Restore gambar jika ada
+    if (imgData) ctx.putImageData(imgData, 0, 0);
   }
-
   window.addEventListener('resize', resizeCanvas);
 
   function getPos(e) {
@@ -447,17 +387,66 @@
     return { x: src.clientX - rect.left, y: src.clientY - rect.top };
   }
 
-  canvas.addEventListener('mousedown',  e => { drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); wrapper.classList.add('active'); });
-  canvas.addEventListener('mousemove',  e => { if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); if (!hasSig) { hasSig = true; hint.style.display = 'none'; } });
-  canvas.addEventListener('mouseup',    () => drawing = false);
-  canvas.addEventListener('mouseleave', () => drawing = false);
-  canvas.addEventListener('touchstart', e => { e.preventDefault(); drawing = true; ctx.beginPath(); const p = getPos(e); ctx.moveTo(p.x, p.y); wrapper.classList.add('active'); }, { passive: false });
-  canvas.addEventListener('touchmove',  e => { e.preventDefault(); if (!drawing) return; const p = getPos(e); ctx.lineTo(p.x, p.y); ctx.stroke(); if (!hasSig) { hasSig = true; hint.style.display = 'none'; } }, { passive: false });
-  canvas.addEventListener('touchend',   e => { e.preventDefault(); drawing = false; }, { passive: false });
+  // Mouse events — FIX: beginPath hanya saat mousedown, bukan mousemove
+  canvas.addEventListener('mousedown', function(e) {
+    isDrawing = true;
+    const p = getPos(e);
+    lastX = p.x; lastY = p.y;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    wrapper.classList.add('active');
+  });
+
+  canvas.addEventListener('mousemove', function(e) {
+    if (!isDrawing) return;
+    const p = getPos(e);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    // Lanjutkan path agar goresan berikutnya menyambung
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+    lastX = p.x; lastY = p.y;
+    if (!hasSig) { hasSig = true; hint.style.display = 'none'; }
+  });
+
+  canvas.addEventListener('mouseup',    function() { isDrawing = false; ctx.beginPath(); });
+  canvas.addEventListener('mouseleave', function() { isDrawing = false; ctx.beginPath(); });
+
+  // Touch events
+  canvas.addEventListener('touchstart', function(e) {
+    e.preventDefault();
+    isDrawing = true;
+    const p = getPos(e);
+    lastX = p.x; lastY = p.y;
+    ctx.beginPath();
+    ctx.moveTo(lastX, lastY);
+    wrapper.classList.add('active');
+  }, { passive: false });
+
+  canvas.addEventListener('touchmove', function(e) {
+    e.preventDefault();
+    if (!isDrawing) return;
+    const p = getPos(e);
+    ctx.lineTo(p.x, p.y);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(p.x, p.y);
+    lastX = p.x; lastY = p.y;
+    if (!hasSig) { hasSig = true; hint.style.display = 'none'; }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', function(e) {
+    e.preventDefault();
+    isDrawing = false;
+    ctx.beginPath();
+  }, { passive: false });
 
   function clearSignature() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    hasSig = false; hint.style.display = ''; wrapper.classList.remove('active');
+    hasSig = false;
+    hint.style.display = '';
+    wrapper.classList.remove('active');
+    ctx.beginPath();
   }
 
   // ── Toast ──
@@ -472,7 +461,6 @@
     const nik        = document.getElementById('nik').value.trim();
     const nama       = document.getElementById('nama').value.trim();
     const departemen = document.getElementById('departemen').value;
-
     if (!nik)        { showToast('NIK wajib diisi.', 'error'); return; }
     if (!nama)       { showToast('Nama wajib diisi.', 'error'); return; }
     if (!departemen) { showToast('Departemen wajib dipilih.', 'error'); return; }
@@ -481,7 +469,7 @@
     const btn = document.getElementById('btnSubmit');
     btn.disabled = true; btn.textContent = 'Mengirim...';
 
-    const ttdBase64 = canvas.toDataURL('image/jpeg', 0.5);
+    const ttdBase64 = canvas.toDataURL('image/png');
 
     jsonpCall({ nik, nama, departemen, ttd: ttdBase64 }, function(res) {
       btn.disabled = false; btn.textContent = 'Kirim Daftar Hadir';
@@ -498,16 +486,14 @@
 
   // ── Reset ──
   function resetForm() {
-    document.getElementById('nik').value               = '';
-    document.getElementById('nama').value              = '';
+    document.getElementById('nik').value = '';
+    document.getElementById('nama').value = '';
     document.getElementById('departemen').selectedIndex = 0;
     clearSignature();
     document.getElementById('formState').style.display    = '';
     document.getElementById('successState').style.display = 'none';
-    // Resize canvas lagi setelah reset
     setTimeout(resizeCanvas, 50);
   }
 </script>
-
 </body>
 </html>
