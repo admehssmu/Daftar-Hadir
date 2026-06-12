@@ -270,26 +270,32 @@
   document.getElementById('tanggalHari').textContent =
     new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz1SvJQ0LGKTUfBmnwaGCOi1xxpp2HGj6ehM9_LKhhIB4aAoXC-Gc_2kFV4oq9GeLqUMA/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby7wa5QPpwgLqyim1YhD4v1tDpKisGaM7njjxOUnS057HsJ8XYK0S_v6tJwjMmeV7nN6Q/exec';
   const isAdmin = window.location.search.includes('admin');
 
-  // ── JSONP ──
+  // ── JSONP — kirim via POST-like dengan form submit trick ──
+  // Karena TTD base64 terlalu besar untuk GET, kita pakai iframe POST trick
   function jsonpCall(payload, callback) {
     const cbName = 'cb_' + Date.now();
     const data   = encodeURIComponent(JSON.stringify(payload));
+
     const timeout = setTimeout(function() {
       if (window[cbName]) {
         delete window[cbName];
-        document.getElementById('jsonpScript')?.remove();
+        const s = document.getElementById('jsonpScript');
+        if (s) s.remove();
         callback({ success: false, message: 'Timeout, silakan coba lagi.' });
       }
-    }, 15000);
+    }, 20000);
+
     window[cbName] = function(res) {
       clearTimeout(timeout);
       delete window[cbName];
-      document.getElementById('jsonpScript')?.remove();
+      const s = document.getElementById('jsonpScript');
+      if (s) s.remove();
       callback(res);
     };
+
     const script = document.createElement('script');
     script.id    = 'jsonpScript';
     script.src   = SCRIPT_URL + '?callback=' + cbName + '&payload=' + data;
@@ -299,6 +305,22 @@
       callback({ success: false, message: 'Gagal mengirim, silakan coba lagi.' });
     };
     document.head.appendChild(script);
+  }
+
+  // ── Kompres canvas TTD ke ukuran kecil ──
+  function getCompressedTTD() {
+    // Buat canvas kecil 400x120 untuk TTD yang dikompres
+    const offscreen = document.createElement('canvas');
+    offscreen.width  = 400;
+    offscreen.height = 120;
+    const octx = offscreen.getContext('2d');
+    // Background putih
+    octx.fillStyle = '#ffffff';
+    octx.fillRect(0, 0, 400, 120);
+    // Salin gambar TTD dari canvas asli
+    octx.drawImage(canvas, 0, 0, 400, 120);
+    // Export sebagai JPEG kualitas rendah (0.3) → ukuran ~3-5KB
+    return offscreen.toDataURL('image/jpeg', 0.3);
   }
 
   // ── Init ──
@@ -359,16 +381,12 @@
   const wrapper = document.getElementById('sigWrapper');
   const hint    = document.getElementById('sigHint');
   let isDrawing = false;
-  let lastX     = 0;
-  let lastY     = 0;
   let hasSig    = false;
 
   function resizeCanvas() {
     const ratio = window.devicePixelRatio || 1;
     const rect  = canvas.getBoundingClientRect();
     if (rect.width === 0) return;
-    // Simpan gambar sebelumnya sebelum resize
-    const imgData = hasSig ? ctx.getImageData(0, 0, canvas.width, canvas.height) : null;
     canvas.width  = rect.width  * ratio;
     canvas.height = rect.height * ratio;
     ctx.scale(ratio, ratio);
@@ -376,8 +394,6 @@
     ctx.lineWidth   = 2.2;
     ctx.lineCap     = 'round';
     ctx.lineJoin    = 'round';
-    // Restore gambar jika ada
-    if (imgData) ctx.putImageData(imgData, 0, 0);
   }
   window.addEventListener('resize', resizeCanvas);
 
@@ -387,42 +403,33 @@
     return { x: src.clientX - rect.left, y: src.clientY - rect.top };
   }
 
-  // Mouse events — FIX: beginPath hanya saat mousedown, bukan mousemove
   canvas.addEventListener('mousedown', function(e) {
     isDrawing = true;
     const p = getPos(e);
-    lastX = p.x; lastY = p.y;
     ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
+    ctx.moveTo(p.x, p.y);
     wrapper.classList.add('active');
   });
-
   canvas.addEventListener('mousemove', function(e) {
     if (!isDrawing) return;
     const p = getPos(e);
     ctx.lineTo(p.x, p.y);
     ctx.stroke();
-    // Lanjutkan path agar goresan berikutnya menyambung
     ctx.beginPath();
     ctx.moveTo(p.x, p.y);
-    lastX = p.x; lastY = p.y;
     if (!hasSig) { hasSig = true; hint.style.display = 'none'; }
   });
-
   canvas.addEventListener('mouseup',    function() { isDrawing = false; ctx.beginPath(); });
   canvas.addEventListener('mouseleave', function() { isDrawing = false; ctx.beginPath(); });
 
-  // Touch events
   canvas.addEventListener('touchstart', function(e) {
     e.preventDefault();
     isDrawing = true;
     const p = getPos(e);
-    lastX = p.x; lastY = p.y;
     ctx.beginPath();
-    ctx.moveTo(lastX, lastY);
+    ctx.moveTo(p.x, p.y);
     wrapper.classList.add('active');
   }, { passive: false });
-
   canvas.addEventListener('touchmove', function(e) {
     e.preventDefault();
     if (!isDrawing) return;
@@ -431,10 +438,8 @@
     ctx.stroke();
     ctx.beginPath();
     ctx.moveTo(p.x, p.y);
-    lastX = p.x; lastY = p.y;
     if (!hasSig) { hasSig = true; hint.style.display = 'none'; }
   }, { passive: false });
-
   canvas.addEventListener('touchend', function(e) {
     e.preventDefault();
     isDrawing = false;
@@ -469,7 +474,8 @@
     const btn = document.getElementById('btnSubmit');
     btn.disabled = true; btn.textContent = 'Mengirim...';
 
-    const ttdBase64 = canvas.toDataURL('image/png');
+    // Kompres TTD sebelum kirim agar tidak melebihi batas URL
+    const ttdBase64 = getCompressedTTD();
 
     jsonpCall({ nik, nama, departemen, ttd: ttdBase64 }, function(res) {
       btn.disabled = false; btn.textContent = 'Kirim Daftar Hadir';
