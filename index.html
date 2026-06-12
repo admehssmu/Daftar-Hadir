@@ -115,6 +115,13 @@
     .btn-submit:hover    { background: var(--red-dark); }
     .btn-submit:active   { transform: scale(0.99); }
     .btn-submit:disabled { background: var(--gray-400); cursor: not-allowed; transform: none; }
+    .btn-close {
+      width: 100%; padding: 12px; background: none; color: var(--gray-600);
+      border: 1.5px solid var(--gray-200); border-radius: 8px;
+      font-family: inherit; font-size: 13px; font-weight: 600;
+      cursor: pointer; margin-top: 10px; transition: all 0.2s;
+    }
+    .btn-close:hover { background: #FEF2F2; border-color: var(--red); color: var(--red); }
     #toast {
       position: fixed; bottom: 24px; left: 50%;
       transform: translateX(-50%) translateY(80px);
@@ -158,6 +165,12 @@
       padding: 3px 8px; border-radius: 20px; text-transform: uppercase;
       margin-left: 8px; vertical-align: middle;
     }
+    .file-info {
+      background: #F0FDF4; border: 1.5px solid #86EFAC; border-radius: 8px;
+      padding: 12px 14px; font-size: 12px; color: #15803D;
+      margin-bottom: 14px; word-break: break-all; line-height: 1.6;
+    }
+    .file-info a { color: #15803D; font-weight: 700; }
   </style>
 </head>
 <body>
@@ -191,7 +204,7 @@
       </div>
       <div class="field">
         <label for="tglJam">Tgl / Jam Pelaksanaan</label>
-        <input type="text" id="tglJam" placeholder="Contoh: 11 Juni 2026, 09.00 WIB" />
+        <input type="text" id="tglJam" placeholder="Contoh: 12 Juni 2026, 09.00 WIB" />
       </div>
       <div class="field">
         <label for="tempat">Tempat</label>
@@ -200,13 +213,26 @@
       <button class="btn-submit" id="btnSaveInfo" onclick="saveInfo()">Simpan & Aktifkan Form Peserta</button>
     </div>
 
-    <!-- ADMIN: SUKSES -->
-    <div id="adminSuccessState" style="display:none; text-align:center; padding:16px 0">
-      <div class="success-icon">✓</div>
-      <h2 style="font-size:18px; color:var(--gray-800); margin-bottom:8px;">Info Kegiatan Tersimpan!</h2>
-      <p style="font-size:13px; color:var(--gray-600); margin-bottom:16px; line-height:1.6">Form peserta sudah aktif.<br>Bagikan link berikut ke peserta:</p>
-      <div style="background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--gray-800); word-break:break-all; margin-bottom:16px" id="pesertaLink"></div>
-      <button class="btn-another" onclick="copyPesertaLink()">Salin Link Peserta</button>
+    <!-- ADMIN: SUKSES SIMPAN INFO -->
+    <div id="adminSuccessState" style="display:none; padding:4px 0">
+      <div class="section-title">Form Aktif <span class="admin-badge">Admin</span></div>
+      <div class="file-info" id="fileInfo"></div>
+      <p style="font-size:13px; color:var(--gray-600); margin-bottom:14px; line-height:1.6">
+        Bagikan link berikut ke peserta:
+      </p>
+      <div style="background:var(--gray-50); border:1.5px solid var(--gray-200); border-radius:8px; padding:12px 14px; font-size:12px; color:var(--gray-800); word-break:break-all; margin-bottom:4px" id="pesertaLink"></div>
+      <button class="btn-another" onclick="copyPesertaLink()" style="width:100%; margin-top:10px">Salin Link Peserta</button>
+      <button class="btn-close" id="btnClose" onclick="confirmClose()">🔒 Tutup Form & Kunci Kehadiran</button>
+    </div>
+
+    <!-- ADMIN: FORM DITUTUP -->
+    <div id="adminClosedState" style="display:none; text-align:center; padding:24px 0">
+      <div style="font-size:40px; margin-bottom:12px">🔒</div>
+      <h2 style="font-size:16px; color:var(--gray-800); margin-bottom:8px">Form Telah Ditutup</h2>
+      <p style="font-size:13px; color:var(--gray-600); line-height:1.6; margin-bottom:20px">
+        Data kehadiran sudah tersimpan di GDrive.
+      </p>
+      <button class="btn-submit" onclick="bukaAgendaBaru()">+ Buka Agenda Baru</button>
     </div>
 
     <!-- PESERTA: FORM -->
@@ -256,11 +282,13 @@
       <button class="btn-another" onclick="resetForm()">Peserta Berikutnya</button>
     </div>
 
-    <!-- FORM BELUM AKTIF -->
+    <!-- FORM BELUM / SUDAH TIDAK AKTIF -->
     <div id="notActiveState" style="display:none; text-align:center; padding:24px 0">
       <div style="font-size:40px; margin-bottom:12px">🔒</div>
-      <h2 style="font-size:16px; color:var(--gray-800); margin-bottom:8px">Form Belum Aktif</h2>
-      <p style="font-size:13px; color:var(--gray-600); line-height:1.6">Admin belum mengisi info kegiatan.<br>Silakan hubungi admin.</p>
+      <h2 style="font-size:16px; color:var(--gray-800); margin-bottom:8px">Form Tidak Aktif</h2>
+      <p style="font-size:13px; color:var(--gray-600); line-height:1.6">
+        Form sedang tidak aktif.<br>Silakan hubungi admin.
+      </p>
     </div>
   </div>
 
@@ -270,15 +298,13 @@
   document.getElementById('tanggalHari').textContent =
     new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' });
 
-  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzgDRAk3oIYYY7czHb17l-vt_DR5vA8hLhdVAnXIPZf3uDVESZhM0zleRDXyLoGhpj-EQ/exec';
+  const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzs2SfRX059TF3CaxGhl99pzbFqEbo1VYPq6DoXe81T2FnC8vtSCXj8lkNLsw-Y2YUkzA/exec';
   const isAdmin = window.location.search.includes('admin');
 
-  // ── JSONP — kirim via POST-like dengan form submit trick ──
-  // Karena TTD base64 terlalu besar untuk GET, kita pakai iframe POST trick
+  // ── JSONP ──
   function jsonpCall(payload, callback) {
     const cbName = 'cb_' + Date.now();
     const data   = encodeURIComponent(JSON.stringify(payload));
-
     const timeout = setTimeout(function() {
       if (window[cbName]) {
         delete window[cbName];
@@ -287,7 +313,6 @@
         callback({ success: false, message: 'Timeout, silakan coba lagi.' });
       }
     }, 20000);
-
     window[cbName] = function(res) {
       clearTimeout(timeout);
       delete window[cbName];
@@ -295,7 +320,6 @@
       if (s) s.remove();
       callback(res);
     };
-
     const script = document.createElement('script');
     script.id    = 'jsonpScript';
     script.src   = SCRIPT_URL + '?callback=' + cbName + '&payload=' + data;
@@ -307,19 +331,15 @@
     document.head.appendChild(script);
   }
 
-  // ── Kompres canvas TTD ke ukuran kecil ──
+  // ── Kompres TTD ──
   function getCompressedTTD() {
-    // Buat canvas kecil 400x120 untuk TTD yang dikompres
     const offscreen = document.createElement('canvas');
     offscreen.width  = 400;
     offscreen.height = 120;
     const octx = offscreen.getContext('2d');
-    // Background putih
     octx.fillStyle = '#ffffff';
     octx.fillRect(0, 0, 400, 120);
-    // Salin gambar TTD dari canvas asli
     octx.drawImage(canvas, 0, 0, 400, 120);
-    // Export sebagai JPEG kualitas rendah (0.3) → ukuran ~3-5KB
     return offscreen.toDataURL('image/jpeg', 0.3);
   }
 
@@ -347,7 +367,7 @@
   }
   init();
 
-  // ── Admin ──
+  // ── Admin: Simpan Info ──
   function saveInfo() {
     const judul  = document.getElementById('judulKegiatan').value.trim();
     const tgljam = document.getElementById('tglJam').value.trim();
@@ -355,13 +375,17 @@
     if (!judul)  { showToast('Judul Kegiatan wajib diisi.', 'error'); return; }
     if (!tgljam) { showToast('Tgl/Jam wajib diisi.', 'error'); return; }
     if (!tempat) { showToast('Tempat wajib diisi.', 'error'); return; }
+
     const btn = document.getElementById('btnSaveInfo');
-    btn.disabled = true; btn.textContent = 'Menyimpan...';
+    btn.disabled = true; btn.textContent = 'Membuat file...';
+
     jsonpCall({ action: 'saveInfo', judul, tgljam, tempat }, function(res) {
       btn.disabled = false; btn.textContent = 'Simpan & Aktifkan Form Peserta';
       if (res.success) {
         document.getElementById('adminState').style.display = 'none';
         document.getElementById('adminSuccessState').style.display = '';
+        document.getElementById('fileInfo').innerHTML =
+          '✓ File GSheets berhasil dibuat: <a href="' + res.fileUrl + '" target="_blank"><b>' + res.fileName + '</b></a>';
         const pesertaUrl = window.location.href.replace(/[?&]admin.*$/, '');
         document.getElementById('pesertaLink').textContent = pesertaUrl;
       } else {
@@ -373,6 +397,30 @@
   function copyPesertaLink() {
     navigator.clipboard.writeText(document.getElementById('pesertaLink').textContent)
       .then(() => showToast('Link berhasil disalin!', 'success'));
+  }
+
+  // ── Admin: Tutup Form ──
+  function confirmClose() {
+    if (!confirm('Yakin ingin menutup form? Peserta tidak bisa lagi mengisi daftar hadir.')) return;
+    const btn = document.getElementById('btnClose');
+    btn.disabled = true; btn.textContent = 'Menutup...';
+    jsonpCall({ action: 'closeForm' }, function(res) {
+      btn.disabled = false; btn.textContent = '🔒 Tutup Form & Kunci Kehadiran';
+      if (res.success) {
+        document.getElementById('adminSuccessState').style.display = 'none';
+        document.getElementById('adminClosedState').style.display = '';
+      } else {
+        showToast(res.message, 'error');
+      }
+    });
+  }
+
+  function bukaAgendaBaru() {
+    document.getElementById('adminClosedState').style.display = 'none';
+    document.getElementById('judulKegiatan').value = '';
+    document.getElementById('tglJam').value = '';
+    document.getElementById('tempat').value = '';
+    document.getElementById('adminState').style.display = '';
   }
 
   // ── Canvas TTD ──
@@ -404,54 +452,32 @@
   }
 
   canvas.addEventListener('mousedown', function(e) {
-    isDrawing = true;
-    const p = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-    wrapper.classList.add('active');
+    isDrawing = true; const p = getPos(e);
+    ctx.beginPath(); ctx.moveTo(p.x, p.y); wrapper.classList.add('active');
   });
   canvas.addEventListener('mousemove', function(e) {
-    if (!isDrawing) return;
-    const p = getPos(e);
-    ctx.lineTo(p.x, p.y);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
+    if (!isDrawing) return; const p = getPos(e);
+    ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y);
     if (!hasSig) { hasSig = true; hint.style.display = 'none'; }
   });
   canvas.addEventListener('mouseup',    function() { isDrawing = false; ctx.beginPath(); });
   canvas.addEventListener('mouseleave', function() { isDrawing = false; ctx.beginPath(); });
-
   canvas.addEventListener('touchstart', function(e) {
-    e.preventDefault();
-    isDrawing = true;
-    const p = getPos(e);
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
-    wrapper.classList.add('active');
+    e.preventDefault(); isDrawing = true; const p = getPos(e);
+    ctx.beginPath(); ctx.moveTo(p.x, p.y); wrapper.classList.add('active');
   }, { passive: false });
   canvas.addEventListener('touchmove', function(e) {
-    e.preventDefault();
-    if (!isDrawing) return;
-    const p = getPos(e);
-    ctx.lineTo(p.x, p.y);
-    ctx.stroke();
-    ctx.beginPath();
-    ctx.moveTo(p.x, p.y);
+    e.preventDefault(); if (!isDrawing) return; const p = getPos(e);
+    ctx.lineTo(p.x, p.y); ctx.stroke(); ctx.beginPath(); ctx.moveTo(p.x, p.y);
     if (!hasSig) { hasSig = true; hint.style.display = 'none'; }
   }, { passive: false });
   canvas.addEventListener('touchend', function(e) {
-    e.preventDefault();
-    isDrawing = false;
-    ctx.beginPath();
+    e.preventDefault(); isDrawing = false; ctx.beginPath();
   }, { passive: false });
 
   function clearSignature() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    hasSig = false;
-    hint.style.display = '';
-    wrapper.classList.remove('active');
-    ctx.beginPath();
+    hasSig = false; hint.style.display = ''; wrapper.classList.remove('active'); ctx.beginPath();
   }
 
   // ── Toast ──
@@ -473,8 +499,6 @@
 
     const btn = document.getElementById('btnSubmit');
     btn.disabled = true; btn.textContent = 'Mengirim...';
-
-    // Kompres TTD sebelum kirim agar tidak melebihi batas URL
     const ttdBase64 = getCompressedTTD();
 
     jsonpCall({ nik, nama, departemen, ttd: ttdBase64 }, function(res) {
