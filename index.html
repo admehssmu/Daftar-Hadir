@@ -347,8 +347,20 @@
   function init() {
     if (isAdmin) {
       document.getElementById('adminBadge').style.display = '';
-      document.getElementById('loadingScreen').style.display = 'none';
-      document.getElementById('adminState').style.display = '';
+      // Cek dulu apakah ada agenda yang sedang aktif
+      jsonpCall({ action: 'getInfo' }, function(res) {
+        document.getElementById('loadingScreen').style.display = 'none';
+        if (res.success && res.judul) {
+          // Ada agenda aktif → tampilkan langsung halaman "Form Aktif"
+          document.getElementById('adminSuccessState').style.display = '';
+          document.getElementById('fileInfo').innerHTML = '✓ Agenda sedang aktif: <b>' + res.judul + '</b>';
+          const pesertaUrl = window.location.href.replace(/[?&]admin.*$/, '');
+          document.getElementById('pesertaLink').textContent = pesertaUrl;
+        } else {
+          // Tidak ada agenda aktif → tampilkan form isi info
+          document.getElementById('adminState').style.display = '';
+        }
+      });
     } else {
       jsonpCall({ action: 'getInfo' }, function(res) {
         document.getElementById('loadingScreen').style.display = 'none';
